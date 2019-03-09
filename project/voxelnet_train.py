@@ -21,8 +21,8 @@ from project.models.loss import VoxelLoss, LRMloss
 from project.config.voxelnet_config import config as cfg
 from project.utils.eval_utils import generate_pre_label
 from project.utils.test_utils import generate_summary_img
-from project.kittiDataLoader.voxelnet_data_loader import KittiDetectionDataset
-
+# from project.kittiDataLoader.voxelnet_data_loader import KittiDetectionDataset
+from project.kittiDataLoader.dt_data_loader import KittiDTDataset
 
 def weights_init(m):
     if isinstance(m, nn.Conv2d) or isinstance(m, nn.Conv3d):
@@ -43,7 +43,7 @@ def detection_collate(batch):
     max_len = np.max(lens)
     for i, sample in enumerate(batch):
         name.append(sample[0])
-        N = sample[1].shape[0]
+        N = len(sample[1])
         voxel_features.append(
             np.pad(sample[1], ((0, max_len-N),(0, 0),(0, 0)),
                 mode='constant', constant_values=0))
@@ -127,9 +127,10 @@ def eval_iter(model, criterion, eval_index, writer, is_summary=True):
     tloss = []
     data_root = cfg.KITTI_DETECTION_DATASET_ROOT
 
-    datasets_val = KittiDetectionDataset(data_root, set='mini_val', train_type=cfg.train_type, using_img=True)
+    # datasets_val = KittiDetectionDataset(data_root, set='mini_val', train_type=cfg.train_type, using_img=True)
+    datasets_val = KittiDTDataset(data_root, set='mini_val', train_type=cfg.train_type, using_img=True)
     dataloader_val = DataLoader(datasets_val, batch_size=cfg.batch_size, num_workers=cfg.n_cpus,
-                                collate_fn=detection_collate, shuffle=True, pin_memory=False, drop_last=True)
+                                collate_fn=detection_collate, shuffle=False, pin_memory=False, drop_last=True)
 
     for i_batch, (names, voxel_features, voxel_coords, pos_equal_one, neg_equal_one, targets, image) \
             in enumerate(dataloader_val, 0):
@@ -218,14 +219,16 @@ def test_iter(dataloader, model, eval_path, data_root, epoch, writer, is_summary
 def train():
     print('Start training...')
     # get dataset
-    data_root = cfg.KITTI_DETECTION_DATASET_ROOT
-    datasets_train = KittiDetectionDataset(data_root, set='train', train_type=cfg.train_type, using_img=True)
+    data_root = cfg.KITTI_TRACKING_DATASET_ROOT
+    # datasets_train = KittiDetectionDataset(data_root, set='train', train_type=cfg.train_type, using_img=True)
+    datasets_train = KittiDTDataset(data_root, set='train', train_type=cfg.train_type, using_img=True)
     dataloader_train = DataLoader(datasets_train, batch_size=cfg.batch_size, num_workers=cfg.n_cpus,
-                                  collate_fn=detection_collate, shuffle=True, pin_memory=True, drop_last=True)
+                                  collate_fn=detection_collate, shuffle=False, pin_memory=True, drop_last=True)
     
-    datasets_val = KittiDetectionDataset(data_root, set='val', train_type=cfg.train_type, using_img=True)
+    # datasets_val = KittiDetectionDataset(data_root, set='val', train_type=cfg.train_type, using_img=True)
+    datasets_val = KittiDTDataset(data_root, set='val', train_type=cfg.train_type, using_img=True)
     dataloader_val = DataLoader(datasets_val, batch_size=cfg.batch_size, num_workers=cfg.n_cpus,
-                                collate_fn=detection_collate, shuffle=True, pin_memory=False, drop_last=True)
+                                collate_fn=detection_collate, shuffle=False, pin_memory=False, drop_last=True)
     
     # model
     model = VoxelNet(cfg)

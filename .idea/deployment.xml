@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="Lab">
+  <component name="PublishConfigData" autoUpload="Always" serverName="Lab">
     <serverData>
       <paths name="Lab">
         <serverdata>
@@ -12,7 +12,6 @@
             <excludedPath path="/cluster" />
             <excludedPath path="/core" />
             <excludedPath path="/datasets" />
-            <excludedPath path="/dataLoader" />
             <excludedPath path="/Doc" />
             <excludedPath path="/stream" />
             <excludedPath path="/test" />
@@ -31,5 +30,6 @@
         </serverdata>
       </paths>
     </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
   </component>
 </project>
