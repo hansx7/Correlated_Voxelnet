@@ -4,10 +4,10 @@ import os
 class config(object):
     # dir
     ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    KITTI_DETECTION_DATASET_ROOT = '/data/hk1/datasets/kitti/detection/'  # on server
+    KITTI_DETECTION_DATASET_ROOT = '/data/hk1/hansx/datasets/kitti/detection/'  # on server
     # KITTI_DETECTION_DATASET_ROOT = '/media/mooyu/Guoxs_Data/Datasets/Kitti/detection/'  # on pc
 
-    KITTI_TRACKING_DATASET_ROOT = '/data/hk1/datasets/kitti/tracking/'  # on server
+    KITTI_TRACKING_DATASET_ROOT = '/data/hk1/hansx/datasets/kitti/tracking/'  # on server
     # KITTI_TRACKING_DATASET_ROOT = '/media/mooyu/Guoxs_Data/Datasets/3D_Object_Tracking_Evaluation_2012/'
 
     EVAL_SCRIPT_DIR = ROOT_DIR + '/kitti_eval/evaluate_object_3d_offline'
