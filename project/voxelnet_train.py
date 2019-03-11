@@ -67,7 +67,7 @@ def train_iter(dataloader_train, model, optimizer, criterion,epoch, eval_index,
     epoch_size = len(dataloader_train)
     conf_loss = 0
     reg_loss = 0
-    for i_batch, (names, voxel_features, voxel_coords,pos_equal_one, neg_equal_one, targets, image) \
+    for i_batch, (names, voxel_features, voxel_coords, pos_equal_one, neg_equal_one, targets, image) \
             in enumerate(dataloader_train, 0):
         t0 = time.time()
         # wrapper to variable

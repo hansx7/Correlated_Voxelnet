@@ -1,5 +1,6 @@
 import sys
 import os
+import math
 
 class config(object):
     # dir
@@ -40,3 +41,40 @@ class config(object):
     area_extents = [[-40, 40], [-1, 2.5], [0, 70]]
     num_slices = 7
     voxel_size = 0.1
+
+    # points cloud range
+    xrange = [0, 70.4]
+    yrange = [-40, 40]
+    zrange = [-2, 2]
+
+    # anchor size
+    ANCHOR_L = 3.9
+    ANHCOR_W = 1.6
+    ANCHOR_H = 1.56
+
+    # voxel size
+    vd = 0.4
+    vh = 0.2
+    vw = 0.2
+
+    # maximum number of points per voxel
+    T = 35
+
+    # voxel grid
+    W = math.ceil((xrange[1] - xrange[0]) / vw)
+    H = math.ceil((yrange[1] - yrange[0]) / vh)
+    D = math.ceil((zrange[1] - zrange[0]) / vd)
+
+    # feature map size / input size, input_size: 400x352
+    feature_map_rate = 1 / 2
+
+    # non-maximum suppression
+    nms_threshold = 0.01
+    score_threshold = 0.7
+    anchors_per_position = 2
+
+    # iou threshold
+    pos_threshold = 0.6
+    neg_threshold = 0.4
+
+    cal_iou_method = 'from_avod'

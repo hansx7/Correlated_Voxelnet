@@ -1,14 +1,19 @@
 import cv2
 import numpy as np
+import torch
 from torch.utils.data import Dataset, DataLoader
 
 import sys
 sys.path.append('../../')
 import dataLoader.kitti_utils as utils
 from project.config.dt_config import config as cfg
+from project.utils.create_voxel import voxelization_v1
+from project.utils.targets_build import cal_target
+from project.utils.data_aug import aug_data
 from core.proj_utils import get_lidar_in_image_fov
 from dataLoader.kitti_tracking_object import kitti_tracking_object
 from core.bev_generators.bev_slices import BevSlices
+
 
 class KittiDTDataset(Dataset):
     def __init__(self, data_root, set_root='/kitti/', stride=cfg.stride,
@@ -59,7 +64,7 @@ class KittiDTDataset(Dataset):
 
         lidars = self.get_lidar(pre_idx, next_idx, datasets, calib)
 
-        bev_maps = self.get_bev_map(lidars)
+        # bev_maps = self.get_bev_map(lidars)
 
         images = self.get_image(pre_idx, next_idx, datasets)
 
@@ -84,7 +89,13 @@ class KittiDTDataset(Dataset):
             'tracking_id': tracking_id
         }
 
-        return idx_info, lidars, bev_maps, images, labels, num_boxes
+        voxel_features, voxel_coords = self.get_voxel_features_and_coords(cfg, lidars)
+
+        pos_equal_one0, neg_equal_one0, targets0 = cal_target(labels['gt_boxes3d'][0], cfg)
+        pos_equal_one1, neg_equal_one1, targets1 = cal_target(labels['gt_boxes3d'][1], cfg)
+
+        return idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, \
+               [pos_equal_one0, pos_equal_one1], [neg_equal_one0, neg_equal_one1], [targets0, targets1]
 
 
     def split_train_val(self):
@@ -212,6 +223,11 @@ class KittiDTDataset(Dataset):
 
         return gt_boxes3d, gt_boxes2d, gt_ories3d, tracking_id
 
+    def get_voxel_features_and_coords(self, cfg, lidars):
+        voxel_feature0, voxel_coord0 = voxelization_v1(cfg, lidars[0])
+        voxel_feature1, voxel_coord1 = voxelization_v1(cfg, lidars[1])
+        return [voxel_feature0, voxel_feature1], [voxel_coord0, voxel_coord1]
+
 
 if __name__ == '__main__':
 
@@ -220,14 +236,25 @@ if __name__ == '__main__':
     datasets = KittiDTDataset(data_root, set_root='/kitti/', stride=1, train_type='Car', set='train')
     print(len(datasets))
     dataloader = DataLoader(datasets, batch_size=1, num_workers=4)
-    for i_batch, (idx_info, lidars, bev_maps, images, labels, num_boxes) in enumerate(dataloader, 0):
+    for i_batch, (idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, pos_equal_one, neg_equal_one, targets) in enumerate(dataloader, 0):
         print(i_batch, idx_info,
-              (lidars[0].size(), lidars[1].size()),
-              (images[0].size(), images[1].size()),
-              (bev_maps[0].size(), bev_maps[1].size()),
-              (labels['gt_boxes3d'][0].size(),labels['gt_boxes3d'][1].size()),
-              (labels['gt_boxes2d'][0].size(), labels['gt_boxes2d'][1].size()),
-              (labels['tracking_id'][0], labels['tracking_id'][1]),
-              num_boxes
+              # ('lidar size', lidars[0].size(), lidars[1].size()),
+              # ('image size', images[0].size(), images[1].size()),
+              # # (bev_maps[0].size(), bev_maps[1].size()),
+              # '\n',
+              # ('labels', labels['gt_boxes3d'][0], '\n', labels['gt_boxes3d'][1]), '\n',
+              # (labels['gt_boxes2d'][0].size(), labels['gt_boxes2d'][1].size()),
+              # (labels['tracking_id'][0], labels['tracking_id'][1]),
+              # ('num_boxes', num_boxes[0]),
+              ('voxel_features', voxel_features[0].shape, voxel_features[1].shape, \
+               torch.cat((voxel_features[0], voxel_features[1]), 1).shape),
+              ('voxel_coords', voxel_coords[0].shape, voxel_coords[1].shape, \
+               torch.cat((voxel_coords[0], voxel_coords[1]), 1).shape),
+              '\npos_equal_one', (pos_equal_one[0].shape, pos_equal_one[1].shape, \
+               torch.cat((pos_equal_one[0], pos_equal_one[1]), 3).shape), \
+              '\nneg_equal_one', (neg_equal_one[0].shape, neg_equal_one[1].shape, \
+               torch.cat((neg_equal_one[0], neg_equal_one[1]), 3).shape), \
+              '\ntargets', (targets[0].shape, targets[1].shape, \
+               torch.cat((targets[0], targets[1]), 3).shape)
               )
 
