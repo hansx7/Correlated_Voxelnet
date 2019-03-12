@@ -90,12 +90,18 @@ class KittiDTDataset(Dataset):
         }
 
         voxel_features, voxel_coords = self.get_voxel_features_and_coords(cfg, lidars)
+        voxel_mask = voxel_features[0].shape[0]
+        voxel_features = np.concatenate((voxel_features[0], voxel_features[1]), axis=0)
+        voxel_coords = np.concatenate((voxel_coords[0], voxel_coords[1]), axis=0)
 
         pos_equal_one0, neg_equal_one0, targets0 = cal_target(labels['gt_boxes3d'][0], cfg)
         pos_equal_one1, neg_equal_one1, targets1 = cal_target(labels['gt_boxes3d'][1], cfg)
+        pos_equal_one = np.concatenate((pos_equal_one0, pos_equal_one1), axis=2)
+        neg_equal_one = np.concatenate((neg_equal_one0, neg_equal_one1), axis=2)
+        targets = np.concatenate((targets0, targets1), axis=2)
 
-        return idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, \
-               [pos_equal_one0, pos_equal_one1], [neg_equal_one0, neg_equal_one1], [targets0, targets1]
+        return idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, voxel_mask, \
+               pos_equal_one, neg_equal_one, targets
 
 
     def split_train_val(self):
@@ -236,7 +242,7 @@ if __name__ == '__main__':
     datasets = KittiDTDataset(data_root, set_root='/kitti/', stride=1, train_type='Car', set='train')
     print(len(datasets))
     dataloader = DataLoader(datasets, batch_size=1, num_workers=4)
-    for i_batch, (idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, pos_equal_one, neg_equal_one, targets) in enumerate(dataloader, 0):
+    for i_batch, (idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, voxel_mask, pos_equal_one, neg_equal_one, targets) in enumerate(dataloader, 0):
         print(i_batch, idx_info,
               # ('lidar size', lidars[0].size(), lidars[1].size()),
               # ('image size', images[0].size(), images[1].size()),
@@ -246,15 +252,20 @@ if __name__ == '__main__':
               # (labels['gt_boxes2d'][0].size(), labels['gt_boxes2d'][1].size()),
               # (labels['tracking_id'][0], labels['tracking_id'][1]),
               # ('num_boxes', num_boxes[0]),
-              ('voxel_features', voxel_features[0].shape, voxel_features[1].shape, \
-               torch.cat((voxel_features[0], voxel_features[1]), 1).shape),
-              ('voxel_coords', voxel_coords[0].shape, voxel_coords[1].shape, \
-               torch.cat((voxel_coords[0], voxel_coords[1]), 1).shape),
-              '\npos_equal_one', (pos_equal_one[0].shape, pos_equal_one[1].shape, \
-               torch.cat((pos_equal_one[0], pos_equal_one[1]), 3).shape), \
-              '\nneg_equal_one', (neg_equal_one[0].shape, neg_equal_one[1].shape, \
-               torch.cat((neg_equal_one[0], neg_equal_one[1]), 3).shape), \
-              '\ntargets', (targets[0].shape, targets[1].shape, \
-               torch.cat((targets[0], targets[1]), 3).shape)
+              # ('voxel_features', voxel_features[0].shape, voxel_features[1].shape, \
+              #  torch.cat((voxel_features[0], voxel_features[1]), 1).shape),
+              # ('voxel_coords', voxel_coords[0].shape, voxel_coords[1].shape, \
+              #  torch.cat((voxel_coords[0], voxel_coords[1]), 1).shape), \
+              '\nvoxel_features', voxel_features.shape, \
+              '\nvoxel_coords', voxel_coords.shape, voxel_mask, \
+              '\npos_equal_one', pos_equal_one.shape, \
+              '\nneg_equal_one', neg_equal_one.shape, \
+              '\ntargets', targets.shape
+              # '\npos_equal_one', (pos_equal_one[0].shape, pos_equal_one[1].shape, \
+              #  torch.cat((pos_equal_one[0], pos_equal_one[1]), 3).shape), \
+              # '\nneg_equal_one', (neg_equal_one[0].shape, neg_equal_one[1].shape, \
+              #  torch.cat((neg_equal_one[0], neg_equal_one[1]), 3).shape), \
+              # '\ntargets', (targets[0].shape, targets[1].shape, \
+              #  torch.cat((targets[0], targets[1]), 3).shape)
               )
 
