@@ -86,11 +86,17 @@ def train_iter(dataloader_train, model, optimizer, criterion,epoch, eval_index,
         optimizer.zero_grad()
 
         # forward
-        psm, rm = model(voxel_features, voxel_coords, voxel_mask)
+        psm0, rm0, psm1, rm1 = model(voxel_features, voxel_coords, voxel_mask)
 
         # calculate loss
-        conf_loss, reg_loss, cls_pos_loss, cls_neg_loss = \
-            criterion(rm, psm, pos_equal_one, neg_equal_one, targets)
+        conf_loss0, reg_loss0, cls_pos_loss0, cls_neg_loss0 = \
+            criterion(rm0, psm0, pos_equal_one[:, :, :, :2], neg_equal_one[:, :, :, :2], targets[:, :, :, :14])
+        conf_loss1, reg_loss1, cls_pos_loss1, cls_neg_loss1 = \
+            criterion(rm1, psm1, pos_equal_one[:, :, :, 2:], neg_equal_one[:, :, :, 2:], targets[:, :, :, 14:])
+        conf_loss = conf_loss0 + conf_loss1
+        reg_loss = reg_loss0 + reg_loss1
+        cls_pos_loss = cls_pos_loss0 + cls_pos_loss1
+        cls_neg_loss = cls_neg_loss0 + cls_neg_loss1
         loss = conf_loss + reg_loss
 
         # backward

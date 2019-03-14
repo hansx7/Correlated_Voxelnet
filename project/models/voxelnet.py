@@ -164,7 +164,6 @@ class VoxelNet(nn.Module):
         dim = sparse_features.shape[-1]
         dense_feature = Variable(torch.zeros(mini_batch_size, self.cfg.D,
                                              self.cfg.H, self.cfg.W, dim).cuda(gpu_id))
-        print(type(coords), coords.shape)
         dense_feature[0, coords[0, :, 0], coords[0, :, 1], coords[0, :, 2], :] = sparse_features
         dense_feature = dense_feature.permute(0, 4, 1, 2, 3)
         return dense_feature
@@ -190,9 +189,7 @@ class VoxelNet(nn.Module):
         # TODO: send in voxel_mask
         voxel_feature = []
         voxel_coord = []
-        print('vm', voxel_mask)
         voxel_mask = voxel_mask[0].item()
-        print('vm', voxel_mask)
         voxel_feature.append(voxel_features[0, 0:voxel_mask, :, :])
         voxel_feature.append(voxel_features[0, voxel_mask: , :, :])
         voxel_coord.append(voxel_coords[:, 0:voxel_mask, :])

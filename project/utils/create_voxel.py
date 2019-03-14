@@ -28,10 +28,10 @@ def voxelization_v1(cfg, point_cloud):
     # shuffling the points
     np.random.shuffle(point_cloud)
 
-    print('point cloud range')
-    print('x range', np.max(point_cloud[:, 0]), np.min(point_cloud[:, 0]))
-    print('y range', np.max(point_cloud[:, 1]), np.min(point_cloud[:, 1]))
-    print('z range', np.max(point_cloud[:, 2]), np.min(point_cloud[:, 2]))
+    # print('point cloud range')
+    # print('x range', np.max(point_cloud[:, 0]), np.min(point_cloud[:, 0]))
+    # print('y range', np.max(point_cloud[:, 1]), np.min(point_cloud[:, 1]))
+    # print('z range', np.max(point_cloud[:, 2]), np.min(point_cloud[:, 2]))
 
     voxel_index = ((point_cloud[:, :3] - np.array([cfg.xrange[0], cfg.yrange[0], cfg.zrange[0]])) /
                     (cfg.vw, cfg.vh, cfg.vd)).astype(np.int32)

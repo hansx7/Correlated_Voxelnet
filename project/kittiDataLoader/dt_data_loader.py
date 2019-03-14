@@ -121,9 +121,10 @@ class KittiDTDataset(Dataset):
         pos_equal_one = np.concatenate((pos_equal_one0, pos_equal_one1), axis=2)
         neg_equal_one = np.concatenate((neg_equal_one0, neg_equal_one1), axis=2)
         targets = np.concatenate((targets0, targets1), axis=2)
+        # targets_mask = targets0.shape[2]
 
         return idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, voxel_mask, \
-               pos_equal_one, neg_equal_one, targets
+               pos_equal_one, neg_equal_one, targets#, targets_mask
 
 
     def split_train_val(self):
@@ -264,7 +265,8 @@ if __name__ == '__main__':
     datasets = KittiDTDataset(data_root, set_root='/kitti/', stride=1, train_type='Car', set='train')
     print(len(datasets))
     dataloader = DataLoader(datasets, batch_size=1, num_workers=4)
-    for i_batch, (idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, voxel_mask, pos_equal_one, neg_equal_one, targets) in enumerate(dataloader, 0):
+    for i_batch, (idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, voxel_mask, \
+                  pos_equal_one, neg_equal_one, targets) in enumerate(dataloader, 0):
         print(i_batch, idx_info,
               # ('lidar size', lidars[0].size(), lidars[1].size()),
               # ('image size', images[0].size(), images[1].size()),
@@ -282,7 +284,7 @@ if __name__ == '__main__':
               '\nvoxel_coords', voxel_coords.shape, voxel_mask, \
               '\npos_equal_one', pos_equal_one.shape, \
               '\nneg_equal_one', neg_equal_one.shape, \
-              '\ntargets', targets.shape
+              '\ntargets', targets.shape#, targets_mask
               # '\npos_equal_one', (pos_equal_one[0].shape, pos_equal_one[1].shape, \
               #  torch.cat((pos_equal_one[0], pos_equal_one[1]), 3).shape), \
               # '\nneg_equal_one', (neg_equal_one[0].shape, neg_equal_one[1].shape, \
