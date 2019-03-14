@@ -99,7 +99,7 @@ def cal_target(gt_box3d, cfg):
     targets[index_x, index_y, np.array(index_z) * 7 + 5] = np.log(
         gt_xyzhwlr[id_pos_gt, 5] / default_anchors[id_pos, 5])
     targets[index_x, index_y, np.array(index_z) * 7 + 6] = (
-            gt_xyzhwlr[id_pos_gt, 6] - default_anchors[id_pos, 6])
+        gt_xyzhwlr[id_pos_gt, 6] - default_anchors[id_pos, 6])
 
     index_x, index_y, index_z = np.unravel_index(
         id_neg, (*feature_map_shape, cfg.anchors_per_position))

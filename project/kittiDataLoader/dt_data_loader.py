@@ -121,10 +121,11 @@ class KittiDTDataset(Dataset):
         pos_equal_one = np.concatenate((pos_equal_one0, pos_equal_one1), axis=2)
         neg_equal_one = np.concatenate((neg_equal_one0, neg_equal_one1), axis=2)
         targets = np.concatenate((targets0, targets1), axis=2)
+        targets_diff = targets1 - targets0
         # targets_mask = targets0.shape[2]
 
         return idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, voxel_mask, \
-               pos_equal_one, neg_equal_one, targets#, targets_mask
+               pos_equal_one, neg_equal_one, targets, targets_diff#, targets_mask
 
 
     def split_train_val(self):

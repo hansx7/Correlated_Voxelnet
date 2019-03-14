@@ -3,6 +3,8 @@ import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.autograd import Variable
+from project.models.Correlation.Correlation_Module.spatial_correlation_sampler.spatial_correlation_sampler \
+    import spatial_correlation_sample
 
 # conv2d + bn + relu
 class Conv2d(nn.Module):
@@ -138,6 +140,7 @@ class RPN(nn.Module):
 
         self.score_head = Conv2d(768, cfg.anchors_per_position, 1, 1, 0, activation=False, batch_norm=False)
         self.reg_head = Conv2d(768, 7 * cfg.anchors_per_position, 1, 1, 0, activation=False, batch_norm=False)
+        self.corr_head = Conv2d(768, 1, 1, 1, 0, activation=False, batch_norm=False)
 
     def forward(self, x):
         x = self.block_1(x)
@@ -149,7 +152,20 @@ class RPN(nn.Module):
         x_1 = self.deconv_2(x_skip_2)
         x_2 = self.deconv_3(x_skip_1)
         x = torch.cat((x_0, x_1, x_2), 1)
-        return self.score_head(x), self.reg_head(x)
+        return self.score_head(x), self.reg_head(x), self.corr_head(x)
+
+# Correlation Layer
+class CL(nn.Module):
+    def __init__(self):
+        super(CL, self).__init__()
+        self.correlation = spatial_correlation_sample
+        self.conv2d = Conv2d(121, 8, 3, 1, 1)
+
+    def forward(self, x0, x1):
+        y = self.correlation(x0, x1, kernel_size=1, patch_size=11, stride=1, padding=0, dilation_patch=2)
+        y0, y1, y2, y3, y4 = y.shape
+        y = y.view(y0, -1, y3, y4)
+        return self.conv2d(y)
 
 
 class VoxelNet(nn.Module):
@@ -159,6 +175,7 @@ class VoxelNet(nn.Module):
         self.svfe = SVFE(self.cfg)
         self.cml = CML()
         self.rpn = RPN(self.cfg)
+        self.cl = CL()
 
     def voxel_indexing(self, sparse_features, coords, mini_batch_size, gpu_id):
         dim = sparse_features.shape[-1]
@@ -186,7 +203,6 @@ class VoxelNet(nn.Module):
         # print('nvoxel_features', nvoxel_features.shape)
         # print('n_voxel_coords', n_voxel_coords.shape)
 
-        # TODO: send in voxel_mask
         voxel_feature = []
         voxel_coord = []
         voxel_mask = voxel_mask[0].item()
@@ -212,11 +228,13 @@ class VoxelNet(nn.Module):
             # merge the depth and feature dim into one, output probability score map and regression map
             # torch.Size([batch_size, 128, 400, 352])
             cml_out = cml_out.view(mini_batch_size, -1, self.cfg.H, self.cfg.W)
-            corr.append(cml_out)
             # psm torch.Size([batch_size, 2, 200, 176]), rm torch.Size([batch_size, 14, 200, 176])
-            psm_, rm_ = self.rpn(cml_out)
+            psm_, rm_, corr_head = self.rpn(cml_out)
             psm.append(psm_)
             rm.append(rm_)
+            corr.append(corr_head)
             # print('psm size: ', psm.size(), 'rm size: ', rm.size())
+        corr = self.cl(corr[0], corr[1])
+        print('corr.shape', corr.shape)
 
-        return psm[0], rm[0], psm[1], rm[1]
+        return psm[0], rm[0], psm[1], rm[1], corr

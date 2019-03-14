@@ -62,13 +62,13 @@ def detection_collate(batch):
            np.array(targets), np.array(image)
     
     
-def train_iter(dataloader_train, model, optimizer, criterion,epoch, eval_index,
+def train_iter(dataloader_train, model, optimizer, criterion, epoch, eval_index,
                writer, log, is_summary=True):
     epoch_size = len(dataloader_train)
     conf_loss = 0
     reg_loss = 0
-    for i_batch, (names, lidars, images, labels, num_boxes, voxel_features, voxel_coords, voxel_mask, pos_equal_one, neg_equal_one, targets) \
-            in enumerate(dataloader_train, 0):
+    for i_batch, (names, lidars, images, labels, num_boxes, voxel_features, voxel_coords, voxel_mask, \
+                  pos_equal_one, neg_equal_one, targets, targets_diff) in enumerate(dataloader_train, 0):
         t0 = time.time()
         # wrapper to variable
         # voxel_features = Variable(torch.from_numpy(voxel_features)).float().cuda()
@@ -86,7 +86,7 @@ def train_iter(dataloader_train, model, optimizer, criterion,epoch, eval_index,
         optimizer.zero_grad()
 
         # forward
-        psm0, rm0, psm1, rm1 = model(voxel_features, voxel_coords, voxel_mask)
+        psm0, rm0, psm1, rm1, corr = model(voxel_features, voxel_coords, voxel_mask)
 
         # calculate loss
         conf_loss0, reg_loss0, cls_pos_loss0, cls_neg_loss0 = \

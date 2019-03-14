@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d7e3c126-b245-4589-a2d8-b6dc8fa20522" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/kittiDataLoader/dt_data_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/kittiDataLoader/dt_data_loader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/utils/create_voxel.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/utils/create_voxel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/models/voxelnet.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/models/voxelnet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/utils/targets_build.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/utils/targets_build.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/voxelnet_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/voxelnet_train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -15,8 +17,10 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Point_Cloud$dt_data_loader__1_.coverage" NAME="dt_data_loader (1) Coverage Results" MODIFIED="1552044454123" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="/" />
     <SUITE FILE_PATH="coverage/Point_Cloud$voxelnet_data_loader.coverage" NAME="voxelnet_data_loader Coverage Results" MODIFIED="1552303251704" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/project/kittiDataLoader" />
-    <SUITE FILE_PATH="coverage/Point_Cloud$voxelnet_train.coverage" NAME="voxelnet_train Coverage Results" MODIFIED="1552550786273" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Point_Cloud$dt_data_loader.coverage" NAME="dt_data_loader Coverage Results" MODIFIED="1552549980941" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/project/kittiDataLoader" />
+    <SUITE FILE_PATH="coverage/Point_Cloud$voxelnet_train.coverage" NAME="voxelnet_train Coverage Results" MODIFIED="1552572107937" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Point_Cloud$dt_data_loader.coverage" NAME="dt_data_loader Coverage Results" MODIFIED="1552565168544" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/project/kittiDataLoader" />
+    <SUITE FILE_PATH="coverage/Point_Cloud$correlation_test.coverage" NAME="correlation_test Coverage Results" MODIFIED="1552571040509" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/project" />
+    <SUITE FILE_PATH="coverage/Point_Cloud$benchmark.coverage" NAME="benchmark Coverage Results" MODIFIED="1552552203645" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/project/models/Correlation" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -54,24 +58,26 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="md" value="1" />
-          <entry key="py" value="73" />
+          <entry key="py" value="84" />
+          <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Markdown" value="1" />
+          <entry key="PLAIN_TEXT" value="1" />
           <entry key="PyRemoteDebug" value="3" />
-          <entry key="Python" value="70" />
+          <entry key="Python" value="81" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="4946" />
+          <entry key="py" value="6393" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="4946" />
+          <entry key="Python" value="6393" />
         </counts>
       </usages-collector>
     </session>
@@ -81,11 +87,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project/kittiDataLoader/dt_data_loader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4844">
-              <caret line="268" column="18" selection-start-line="268" selection-start-column="18" selection-end-line="268" selection-end-column="18" />
+            <state relative-caret-position="427">
+              <caret line="118" column="57" selection-start-line="118" selection-start-column="57" selection-end-line="118" selection-end-column="57" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -94,12 +100,24 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project/config/dt_config.py">
+        <entry file="file://$PROJECT_DIR$/project/utils/targets_build.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1361">
-              <caret line="111" selection-start-line="111" selection-end-line="111" />
+            <state relative-caret-position="551">
+              <caret line="101" column="62" lean-forward="true" selection-start-line="101" selection-start-column="62" selection-end-line="101" selection-end-column="62" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/project/correlation_test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="12" column="118" selection-start-line="12" selection-start-column="52" selection-end-line="12" selection-end-column="118" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -117,8 +135,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/project/voxelnet_train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="624">
-              <caret line="113" column="26" lean-forward="true" selection-start-line="113" selection-start-column="26" selection-end-line="113" selection-end-column="26" />
+            <state relative-caret-position="1187">
+              <caret line="276" column="22" lean-forward="true" selection-start-line="276" selection-start-column="22" selection-end-line="276" selection-end-column="22" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -127,12 +145,23 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/project/models/loss.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1216">
+              <caret line="42" column="8" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/project/models/voxelnet.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="514">
-              <caret line="223" selection-start-line="223" selection-end-line="223" />
+            <state relative-caret-position="447">
+              <caret line="155" lean-forward="true" selection-start-line="155" selection-end-line="155" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
+                <marker date="1552572107572" expanded="true" signature="5188:5590" ph="..." />
+                <marker date="1552572107572" expanded="true" signature="5347:5353" ph="..." />
               </folding>
             </state>
           </provider>
@@ -166,11 +195,14 @@
         <option value="$PROJECT_DIR$/dataLoader/kitti_tracking_object.py" />
         <option value="$PROJECT_DIR$/project/kittiDataLoader/voxelnet_data_loader.py" />
         <option value="$PROJECT_DIR$/project/config/voxelnet_config.py" />
-        <option value="$PROJECT_DIR$/project/models/voxelnet.py" />
         <option value="$PROJECT_DIR$/project/config/dt_config.py" />
+        <option value="$PROJECT_DIR$/project/utils/create_voxel.py" />
+        <option value="$PROJECT_DIR$/project/models/Correlation/Correlation_Module/spatial_correlation_sampler/spatial_correlation_sampler.py" />
         <option value="$PROJECT_DIR$/project/kittiDataLoader/dt_data_loader.py" />
         <option value="$PROJECT_DIR$/project/voxelnet_train.py" />
-        <option value="$PROJECT_DIR$/project/utils/create_voxel.py" />
+        <option value="$PROJECT_DIR$/project/utils/targets_build.py" />
+        <option value="$PROJECT_DIR$/project/correlation_test.py" />
+        <option value="$PROJECT_DIR$/project/models/voxelnet.py" />
       </list>
     </option>
   </component>
@@ -182,9 +214,9 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-123" />
-    <option name="y" value="-4" />
+    <option name="y" value="-32" />
     <option name="width" value="1853" />
-    <option name="height" value="1076" />
+    <option name="height" value="1104" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -216,19 +248,31 @@
               <item name="Point_Cloud" type="b2602c69:ProjectViewProjectNode" />
               <item name="Point_Cloud" type="462c0819:PsiDirectoryNode" />
               <item name="project" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Point_Cloud" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Point_Cloud" type="462c0819:PsiDirectoryNode" />
-              <item name="project" type="462c0819:PsiDirectoryNode" />
-              <item name="kittiDataLoader" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Point_Cloud" type="b2602c69:ProjectViewProjectNode" />
               <item name="Point_Cloud" type="462c0819:PsiDirectoryNode" />
               <item name="project" type="462c0819:PsiDirectoryNode" />
               <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="Correlation" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Point_Cloud" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Point_Cloud" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="Correlation" type="462c0819:PsiDirectoryNode" />
+              <item name="Correlation_Module" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Point_Cloud" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Point_Cloud" type="462c0819:PsiDirectoryNode" />
+              <item name="project" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
+              <item name="Correlation" type="462c0819:PsiDirectoryNode" />
+              <item name="Correlation_Module" type="462c0819:PsiDirectoryNode" />
+              <item name="spatial_correlation_sampler" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Point_Cloud" type="b2602c69:ProjectViewProjectNode" />
@@ -267,6 +311,28 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.voxelnet_train">
+    <configuration name="correlation_test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="point_cloud" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/project" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/project/correlation_test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="dt_data_loader" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="point_cloud" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -281,28 +347,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/project/kittiDataLoader/dt_data_loader.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="voxelnet_data_loader" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="point_cloud" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/project/kittiDataLoader" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/project/kittiDataLoader/voxelnet_data_loader.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -336,13 +380,13 @@
     <list>
       <item itemvalue="Python.voxelnet_train" />
       <item itemvalue="Python.dt_data_loader" />
-      <item itemvalue="Python.voxelnet_data_loader" />
+      <item itemvalue="Python.correlation_test" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Python.voxelnet_train" />
+        <item itemvalue="Python.correlation_test" />
         <item itemvalue="Python.dt_data_loader" />
-        <item itemvalue="Python.voxelnet_data_loader" />
       </list>
     </recent_temporary>
   </component>
@@ -363,12 +407,12 @@
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.57377046" visible="true" weight="0.19360177" />
-      <window_info id="Structure" order="1" sideWeight="0.4262295" side_tool="true" visible="true" weight="0.19360177" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5744017" visible="true" weight="0.18257032" />
+      <window_info id="Structure" order="1" sideWeight="0.42559832" side_tool="true" visible="true" weight="0.18257032" />
       <window_info id="Favorites" order="2" sideWeight="0.5010395" side_tool="true" weight="0.2498621" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.36524454" />
+      <window_info anchor="bottom" x="65" y="1104" width="1855" height="1056" id="Run" order="2" type="WINDOWED" weight="0.36524454" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.21227887" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -464,9 +508,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/utils/eval_utils.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/dataLoader/kitti_detection_object.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1330">
@@ -508,16 +549,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/utils/targets_build.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1349">
-          <caret line="72" column="41" selection-start-line="72" selection-start-column="41" selection-end-line="72" selection-end-column="41" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/project/config/common_config.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
@@ -546,26 +577,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/models/voxelnet.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="514">
-          <caret line="223" selection-start-line="223" selection-end-line="223" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/project/config/dt_config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1361">
-          <caret line="111" selection-start-line="111" selection-end-line="111" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/project/utils/create_voxel.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="246">
@@ -573,22 +584,118 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/voxelnet_train.py">
+    <entry file="file://$PROJECT_DIR$/project/models/Correlation/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/models/Correlation/benchmark.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="113" column="26" lean-forward="true" selection-start-line="113" selection-start-column="26" selection-end-line="113" selection-end-column="26" />
+        <state relative-caret-position="-1017">
           <folding>
-            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/models/Correlation/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-257">
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/utils/eval_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.PyCharm2018.2/system/remote_sources/254712754/-1049352544/torch/autograd/variable.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="152">
+          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/models/Correlation/Correlation_Module/spatial_correlation_sampler/spatial_correlation_sampler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" column="43" selection-start-line="11" selection-start-column="43" selection-end-line="11" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/config/dt_config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="797">
+          <caret line="111" selection-start-line="111" selection-end-line="111" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/project/kittiDataLoader/dt_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4844">
-          <caret line="268" column="18" selection-start-line="268" selection-start-column="18" selection-end-line="268" selection-end-column="18" />
+        <state relative-caret-position="427">
+          <caret line="118" column="57" selection-start-line="118" selection-start-column="57" selection-end-line="118" selection-end-column="57" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/utils/targets_build.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="101" column="62" lean-forward="true" selection-start-line="101" selection-start-column="62" selection-end-line="101" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/voxelnet_train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1187">
+          <caret line="276" column="22" lean-forward="true" selection-start-line="276" selection-start-column="22" selection-end-line="276" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/models/loss.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1216">
+          <caret line="42" column="8" selection-start-line="42" selection-start-column="8" selection-end-line="42" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/correlation_test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="12" column="118" selection-start-line="12" selection-start-column="52" selection-end-line="12" selection-end-column="118" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project/models/voxelnet.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="155" lean-forward="true" selection-start-line="155" selection-end-line="155" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+            <marker date="1552572107572" expanded="true" signature="5188:5590" ph="..." />
+            <marker date="1552572107572" expanded="true" signature="5347:5353" ph="..." />
           </folding>
         </state>
       </provider>
