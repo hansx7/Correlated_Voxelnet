@@ -18,7 +18,7 @@ sys.path.append('../')
 from project.utils.utils import run_eval
 from project.models.voxelnet import VoxelNet
 from project.models.loss import VoxelLoss, LRMloss
-from project.config.voxelnet_config import config as cfg
+from project.config.dt_config import config as cfg
 from project.utils.eval_utils import generate_pre_label
 from project.utils.test_utils import generate_summary_img
 # from project.kittiDataLoader.voxelnet_data_loader import KittiDetectionDataset
@@ -67,21 +67,26 @@ def train_iter(dataloader_train, model, optimizer, criterion,epoch, eval_index,
     epoch_size = len(dataloader_train)
     conf_loss = 0
     reg_loss = 0
-    for i_batch, (names, voxel_features, voxel_coords, pos_equal_one, neg_equal_one, targets, image) \
+    for i_batch, (names, lidars, images, labels, num_boxes, voxel_features, voxel_coords, voxel_mask, pos_equal_one, neg_equal_one, targets) \
             in enumerate(dataloader_train, 0):
         t0 = time.time()
         # wrapper to variable
-        voxel_features = Variable(torch.from_numpy(voxel_features)).float().cuda()
-        voxel_coords = Variable(torch.from_numpy(voxel_coords)).long().cuda()
-        pos_equal_one = Variable(torch.from_numpy(pos_equal_one)).float().cuda()
-        neg_equal_one = Variable(torch.from_numpy(neg_equal_one)).float().cuda()
-        targets = Variable(torch.from_numpy(targets)).float().cuda()
+        # voxel_features = Variable(torch.from_numpy(voxel_features)).float().cuda()
+        # voxel_coords = Variable(torch.from_numpy(voxel_coords)).long().cuda()
+        # pos_equal_one = Variable(torch.from_numpy(pos_equal_one)).float().cuda()
+        # neg_equal_one = Variable(torch.from_numpy(neg_equal_one)).float().cuda()
+        # targets = Variable(torch.from_numpy(targets)).float().cuda()
+        voxel_features = Variable(voxel_features).float().cuda()
+        voxel_coords = Variable(voxel_coords).long().cuda()
+        pos_equal_one = Variable(pos_equal_one).float().cuda()
+        neg_equal_one = Variable(neg_equal_one).float().cuda()
+        targets = Variable(targets).float().cuda()
         
         # zero the parameter gradient
         optimizer.zero_grad()
 
         # forward
-        psm, rm = model(voxel_features, voxel_coords)
+        psm, rm = model(voxel_features, voxel_coords, voxel_mask)
 
         # calculate loss
         conf_loss, reg_loss, cls_pos_loss, cls_neg_loss = \
@@ -223,12 +228,12 @@ def train():
     # datasets_train = KittiDetectionDataset(data_root, set='train', train_type=cfg.train_type, using_img=True)
     datasets_train = KittiDTDataset(data_root, set='train', train_type=cfg.train_type, using_img=True)
     dataloader_train = DataLoader(datasets_train, batch_size=cfg.batch_size, num_workers=cfg.n_cpus,
-                                  collate_fn=detection_collate, shuffle=False, pin_memory=True, drop_last=True)
+                                  shuffle=False, pin_memory=True, drop_last=True)
     
     # datasets_val = KittiDetectionDataset(data_root, set='val', train_type=cfg.train_type, using_img=True)
     datasets_val = KittiDTDataset(data_root, set='val', train_type=cfg.train_type, using_img=True)
     dataloader_val = DataLoader(datasets_val, batch_size=cfg.batch_size, num_workers=cfg.n_cpus,
-                                collate_fn=detection_collate, shuffle=False, pin_memory=False, drop_last=True)
+                                shuffle=False, pin_memory=False, drop_last=True)
     
     # model
     model = VoxelNet(cfg)

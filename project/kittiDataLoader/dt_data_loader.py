@@ -10,6 +10,7 @@ from project.config.dt_config import config as cfg
 from project.utils.create_voxel import voxelization_v1
 from project.utils.targets_build import cal_target
 from project.utils.data_aug import aug_data
+from project.utils.utils import get_filtered_lidar
 from core.proj_utils import get_lidar_in_image_fov
 from dataLoader.kitti_tracking_object import kitti_tracking_object
 from core.bev_generators.bev_slices import BevSlices
@@ -88,6 +89,27 @@ class KittiDTDataset(Dataset):
             'gt_boxes2d': gt_boxes2d,
             'tracking_id': tracking_id
         }
+
+        # get filtered lidar
+        _, _, fov_inds0 = get_lidar_in_image_fov(lidars[0][:, :3], calib, 0, 0,
+                                                 cfg.IMG_WIDTH, cfg.IMG_HEIGHT, return_more=True)
+        aug_lidar0 = lidars[0][fov_inds0]
+        _, _, fov_inds1 = get_lidar_in_image_fov(lidars[1][:, :3], calib, 0, 0,
+                                                 cfg.IMG_WIDTH, cfg.IMG_HEIGHT, return_more=True)
+        aug_lidar1 = lidars[1][fov_inds1]
+
+        # data augment
+        if self.set == 'train':
+            np.random.seed()
+            choice = np.random.randint(1, 10)
+            if choice > 5:
+                if len(labels['gt_boxes3d'][0]) > 0:
+                    lidars[0], labels['gt_boxes3d'][0] = aug_data(lidars[0], labels['gt_boxes3d'][0])
+                if len(labels['gt_boxes3d'][1]) > 0:
+                    lidars[0], labels['gt_boxes3d'][1] = aug_data(lidars[1], labels['gt_boxes3d'][1])
+
+        lidars[0], labels['gt_boxes3d'][0] = get_filtered_lidar(cfg, aug_lidar0, labels['gt_boxes3d'][0])
+        lidars[1], labels['gt_boxes3d'][1] = get_filtered_lidar(cfg, aug_lidar1, labels['gt_boxes3d'][1])
 
         voxel_features, voxel_coords = self.get_voxel_features_and_coords(cfg, lidars)
         voxel_mask = voxel_features[0].shape[0]

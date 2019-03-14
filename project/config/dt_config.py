@@ -14,7 +14,7 @@ class config(object):
     EVAL_SCRIPT_DIR = ROOT_DIR + '/kitti_eval/evaluate_object_3d_offline'
 
     # project name
-    PROJECT_NAME = 'dt'
+    PROJECT_NAME = 'voxelnet'
 
     # datasets spliting
     # split 22 videos into training set and validation set
@@ -78,3 +78,34 @@ class config(object):
     neg_threshold = 0.4
 
     cal_iou_method = 'from_avod'
+
+    # training setting
+    checkpoints_interval = 5  # epoch
+    summary_interval = 5  # batch
+    val_interval = 100  # batch
+    test_interval = 20  # epoch
+    viz_interval = 20  # batch
+    mini_val_size = 100
+
+    # for tensorboard birdview
+    BV_LOG_FACTOR = 4
+
+    # GPU and CPU
+    batch_size_per_gpu = 1
+    device_ids = [2]
+    n_cpus = 16
+
+    # training setting
+    batch_size = batch_size_per_gpu * len(device_ids)
+    epoches = 200
+
+    # loss
+    alpha = 3
+    beta = 1
+    gamma = 5
+    neg_ratio = 3
+
+    # optimizer
+    lr = 0.01
+    lr_scheduler_step = 150
+    lr_scheduler_min = 4e-8

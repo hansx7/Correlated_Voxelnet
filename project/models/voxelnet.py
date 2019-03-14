@@ -164,37 +164,62 @@ class VoxelNet(nn.Module):
         dim = sparse_features.shape[-1]
         dense_feature = Variable(torch.zeros(mini_batch_size, self.cfg.D,
                                              self.cfg.H, self.cfg.W, dim).cuda(gpu_id))
-        dense_feature[coords[:, 0], coords[:, 1], coords[:, 2], coords[:, 3], :] = sparse_features
+        print(type(coords), coords.shape)
+        dense_feature[0, coords[0, :, 0], coords[0, :, 1], coords[0, :, 2], :] = sparse_features
         dense_feature = dense_feature.permute(0, 4, 1, 2, 3)
         return dense_feature
 
-    def forward(self, voxel_features, voxel_coords):
-        # allocate data to GPUs
-        gpu_id = voxel_features.get_device()
+    def forward(self, voxel_features, voxel_coords, voxel_mask):
+        # # allocate data to GPUs
+        # gpu_id = voxel_features.get_device()
+        # mini_batch_size = voxel_features.size()[0]
+        # n_voxel_features= []
+        # n_voxel_coords = []
+        # for i in range(mini_batch_size):
+        #     index = (voxel_coords[i][:, 0] != -1)
+        #     n_voxel_features.append(voxel_features[i][index])
+        #     n_voxel_coords.append(np.pad(voxel_coords[i][index], ((0, 0), (1, 0)),
+        #                                 mode='constant', constant_values=i))
+        #
+        # nvoxel_features = torch.cat(n_voxel_features)
+        # n_voxel_coords = np.concatenate(n_voxel_coords)
+        #
+        # print('nvoxel_features', nvoxel_features.shape)
+        # print('n_voxel_coords', n_voxel_coords.shape)
+
+        # TODO: send in voxel_mask
+        voxel_feature = []
+        voxel_coord = []
+        print('vm', voxel_mask)
+        voxel_mask = voxel_mask[0].item()
+        print('vm', voxel_mask)
+        voxel_feature.append(voxel_features[0, 0:voxel_mask, :, :])
+        voxel_feature.append(voxel_features[0, voxel_mask: , :, :])
+        voxel_coord.append(voxel_coords[:, 0:voxel_mask, :])
+        voxel_coord.append(voxel_coords[:, voxel_mask: , :])
         mini_batch_size = voxel_features.size()[0]
-        n_voxel_features= []
-        n_voxel_coords = []
-        for i in range(mini_batch_size):
-            index = (voxel_coords[i][:, 0] != -1)
-            n_voxel_features.append(voxel_features[i][index])
-            n_voxel_coords.append(np.pad(voxel_coords[i][index], ((0, 0), (1, 0)),
-                                        mode='constant', constant_values=i))
-        
-        nvoxel_features = torch.cat(n_voxel_features)
-        n_voxel_coords = np.concatenate(n_voxel_coords)
- 
-        # feature learning network
-        vwfs = self.svfe(nvoxel_features)
-        # torch.Size([batch_size, 128, 10, 400, 352])
-        vwfs = self.voxel_indexing(vwfs, n_voxel_coords, mini_batch_size, gpu_id) 
-        # convolutional middle network
-        # torch.Size([batch_size, 64, 2, 400, 352])
-        cml_out = self.cml(vwfs)                         
-        # region proposal network
-        # merge the depth and feature dim into one, output probability score map and regression map
-        # torch.Size([batch_size, 128, 400, 352])
-        cml_out = cml_out.view(mini_batch_size, -1, self.cfg.H, self.cfg.W)
-        # psm torch.Size([batch_size, 2, 200, 176]), rm torch.Size([batch_size, 14, 200, 176])
-        psm, rm = self.rpn(cml_out)  
-        # print('psm size: ', psm.size(), 'rm size: ', rm.size())
-        return psm, rm
+        gpu_id = voxel_features.get_device()
+        psm = []
+        rm = []
+        corr = []
+
+        for i in range(2):
+            # feature learning network
+            vwfs = self.svfe(voxel_feature[i])
+            # torch.Size([batch_size, 128, 10, 400, 352])
+            vwfs = self.voxel_indexing(vwfs, voxel_coord[i], mini_batch_size, gpu_id)
+            # convolutional middle network
+            # torch.Size([batch_size, 64, 2, 400, 352])
+            cml_out = self.cml(vwfs)
+            # region proposal network
+            # merge the depth and feature dim into one, output probability score map and regression map
+            # torch.Size([batch_size, 128, 400, 352])
+            cml_out = cml_out.view(mini_batch_size, -1, self.cfg.H, self.cfg.W)
+            corr.append(cml_out)
+            # psm torch.Size([batch_size, 2, 200, 176]), rm torch.Size([batch_size, 14, 200, 176])
+            psm_, rm_ = self.rpn(cml_out)
+            psm.append(psm_)
+            rm.append(rm_)
+            # print('psm size: ', psm.size(), 'rm size: ', rm.size())
+
+        return psm[0], rm[0], psm[1], rm[1]
