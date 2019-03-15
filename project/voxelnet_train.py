@@ -89,15 +89,18 @@ def train_iter(dataloader_train, model, optimizer, criterion, epoch, eval_index,
         psm0, rm0, psm1, rm1, corr = model(voxel_features, voxel_coords, voxel_mask)
 
         # calculate loss
-        conf_loss0, reg_loss0, cls_pos_loss0, cls_neg_loss0 = \
-            criterion(rm0, psm0, pos_equal_one[:, :, :, :2], neg_equal_one[:, :, :, :2], targets[:, :, :, :14])
-        conf_loss1, reg_loss1, cls_pos_loss1, cls_neg_loss1 = \
-            criterion(rm1, psm1, pos_equal_one[:, :, :, 2:], neg_equal_one[:, :, :, 2:], targets[:, :, :, 14:])
+        conf_loss0, reg_loss0, cls_pos_loss0, cls_neg_loss0, corr_loss0 = \
+            criterion(rm0, psm0, pos_equal_one[:, :, :, :2], neg_equal_one[:, :, :, :2], targets[:, :, :, :14], \
+                      corr[:, :4, :, :], targets_diff[:, :, :, :14])
+        conf_loss1, reg_loss1, cls_pos_loss1, cls_neg_loss1, corr_loss1 = \
+            criterion(rm1, psm1, pos_equal_one[:, :, :, 2:], neg_equal_one[:, :, :, 2:], targets[:, :, :, 14:], \
+                      corr[:, 4:, :, :], targets_diff[:, :, :, 14:])
         conf_loss = conf_loss0 + conf_loss1
         reg_loss = reg_loss0 + reg_loss1
         cls_pos_loss = cls_pos_loss0 + cls_pos_loss1
         cls_neg_loss = cls_neg_loss0 + cls_neg_loss1
-        loss = conf_loss + reg_loss
+        corr_loss = corr_loss0 + corr_loss1
+        loss = conf_loss + reg_loss + corr_loss
 
         # backward
         loss.backward()
@@ -109,14 +112,15 @@ def train_iter(dataloader_train, model, optimizer, criterion, epoch, eval_index,
             if (i_batch + 1) % cfg.summary_interval == 0:
                 writer.add_scalar('data/conf_loss',     conf_loss,    epoch * epoch_size + i_batch)
                 writer.add_scalar('data/reg_loss',      reg_loss,     epoch * epoch_size + i_batch)
+                writer.add_scalar('data/corr_loss',     corr_loss,    epoch * epoch_size + i_batch)
                 writer.add_scalar('data/cls_pos_loss',  cls_pos_loss, epoch * epoch_size + i_batch)
                 writer.add_scalar('data/cls_neg_loss',  cls_neg_loss, epoch * epoch_size + i_batch)
                 writer.add_scalar('data/total_loss',    loss,         epoch * epoch_size + i_batch)
 
         info = 'epoch '+str(epoch)+'/'+str(cfg.epoches)+' || iter '+repr(i_batch)+'/'+str(epoch_size)+ \
-               ' || Loss: %.4f || Conf Loss: %.4f || Loc Loss: %.4f || cls_pos_loss: %.4f || cls_neg_loss: %.4f ' \
-               '|| Timer: %.4f sec.' % (loss.data, conf_loss.data, reg_loss.data, cls_pos_loss.data,
-                                        cls_neg_loss.data, (t1 - t0))
+               ' || Loss: %.4f || Conf Loss: %.4f || Loc Loss: %.4f || corr_loss : %.4f || cls_pos_loss: %.4f || ' \
+               'cls_neg_loss: %.4f || Timer: %.4f sec.' % (loss.data, conf_loss.data, reg_loss.data, corr_loss,
+                                                           cls_pos_loss.data, cls_neg_loss.data, (t1 - t0))
         print(info)
         log.write(info+'\n')
         

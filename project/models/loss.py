@@ -8,7 +8,7 @@ class VoxelLoss(nn.Module):
         self.alpha = cfg.alpha
         self.beta = cfg.beta
 
-    def forward(self, rm, psm, pos_equal_one, neg_equal_one, targets):
+    def forward(self, rm, psm, pos_equal_one, neg_equal_one, targets, corr, targets_diff):
         '''
         rm:                 torch.Size([batch_size, 14, h, w])
         psm:                torch.Size([batch_size, 2, h, w])
@@ -37,7 +37,11 @@ class VoxelLoss(nn.Module):
 
         conf_loss = self.alpha * cls_pos_loss + self.beta * cls_neg_loss
 
-        return conf_loss, reg_loss, cls_pos_loss, cls_neg_loss
+        corr = corr.permute(0, 2, 3, 1).contiguous()
+        targets_xyzr = targets[:, :, :, [0, 1, 2, 6, 7, 8, 9, 13]]
+        corr_loss = self.smoothl1loss(corr, targets_xyzr)
+
+        return conf_loss, reg_loss, cls_pos_loss, cls_neg_loss, corr_loss
 
 
 class LRMloss(nn.Module):
