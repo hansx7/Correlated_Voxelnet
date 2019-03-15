@@ -92,7 +92,7 @@ class config(object):
 
     # GPU and CPU
     batch_size_per_gpu = 1
-    device_ids = [0]
+    device_ids = [1]
     n_cpus = 16
 
     # training setting

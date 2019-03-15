@@ -16,7 +16,7 @@ class VoxelLoss(nn.Module):
         neg_equal_one:      torch.Size([batch_size, h, w, 2])
         targets:            torch.Size([batch_size, h, w, 14])
         '''
-        # print('rm: ', rm.size(), 'psm ', psm.size())
+
         p_pos = torch.sigmoid(psm.permute(0, 2, 3, 1))
         rm = rm.permute(0, 2, 3, 1).contiguous()
         rm = rm.view(rm.size(0), rm.size(1), rm.size(2), -1, 7)
@@ -38,8 +38,8 @@ class VoxelLoss(nn.Module):
         conf_loss = self.alpha * cls_pos_loss + self.beta * cls_neg_loss
 
         corr = corr.permute(0, 2, 3, 1).contiguous()
-        targets_xyzr = targets[:, :, :, [0, 1, 2, 6, 7, 8, 9, 13]]
-        corr_loss = self.smoothl1loss(corr, targets_xyzr)
+        targets_xyzr = targets_diff[:, :, :, [0, 1, 2, 6]].cuda().float()
+        corr_loss = self.smoothl1loss(corr, targets_xyzr)# * pos_equal_one
 
         return conf_loss, reg_loss, cls_pos_loss, cls_neg_loss, corr_loss
 

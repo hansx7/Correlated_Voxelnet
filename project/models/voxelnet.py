@@ -235,6 +235,5 @@ class VoxelNet(nn.Module):
             corr.append(corr_head)
             # print('psm size: ', psm.size(), 'rm size: ', rm.size())
         corr = self.cl(corr[0], corr[1])
-        print('corr.shape', corr.shape)
 
         return psm[0], rm[0], psm[1], rm[1], corr
