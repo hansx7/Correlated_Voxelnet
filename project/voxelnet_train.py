@@ -81,12 +81,15 @@ def train_iter(dataloader_train, model, optimizer, criterion, epoch, eval_index,
         pos_equal_one = Variable(pos_equal_one).float().cuda()
         neg_equal_one = Variable(neg_equal_one).float().cuda()
         targets = Variable(targets).float().cuda()
+        targets_diff = Variable(targets_diff).float().cuda()
         
         # zero the parameter gradient
         optimizer.zero_grad()
 
         # forward
         psm0, rm0, psm1, rm1, corr = model(voxel_features, voxel_coords, voxel_mask)
+
+        corr = Variable(corr).float().cuda()
 
         # calculate loss
         conf_loss0, reg_loss0, cls_pos_loss0, cls_neg_loss0, corr_loss0 = \

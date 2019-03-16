@@ -1,5 +1,8 @@
 import torch
 import torch.nn as nn
+from torch.autograd import Variable
+from project.config.dt_config import config as cfg
+
 
 class VoxelLoss(nn.Module):
     def __init__(self, cfg):
@@ -22,6 +25,7 @@ class VoxelLoss(nn.Module):
         rm = rm.view(rm.size(0), rm.size(1), rm.size(2), -1, 7)
         targets = targets.view(targets.size(0), targets.size(1), targets.size(2), -1, 7)
         pos_equal_one_for_reg = pos_equal_one.unsqueeze(pos_equal_one.dim()).expand(-1, -1, -1, -1, 7)
+        pos_equal_one_for_corr = pos_equal_one.unsqueeze(pos_equal_one.dim()).expand(-1, -1, -1, -1, 4)
         
         rm_pos = rm * pos_equal_one_for_reg
         targets_pos = targets * pos_equal_one_for_reg
@@ -38,8 +42,15 @@ class VoxelLoss(nn.Module):
         conf_loss = self.alpha * cls_pos_loss + self.beta * cls_neg_loss
 
         corr = corr.permute(0, 2, 3, 1).contiguous()
-        targets_xyzr = targets_diff[:, :, :, [0, 1, 2, 6]].cuda().float()
-        corr_loss = self.smoothl1loss(corr, targets_xyzr)# * pos_equal_one
+        corr = corr.view(corr.shape[0], corr.shape[1], corr.shape[2], -1, 4)
+        corr = corr * pos_equal_one_for_corr
+        corr = corr.cuda().float()
+        targets_xyzr = targets_diff[:, :, :, [0, 1, 2, 6]]
+        targets_xyzr = targets_xyzr.unsqueeze(targets_xyzr.dim()).expand(-1, -1, -1, -1, 2)
+        targets_xyzr = targets_xyzr.permute(0, 1, 2, 4, 3).cuda().float()
+        # print('targets_xyzr', targets_xyzr)
+        # pos_equal_one = Variable(pos_equal_one, requires_grad=True)
+        corr_loss = self.smoothl1loss(corr, targets_xyzr) / (pos_equal_one.sum() + 1e-6).cuda().float()
 
         return conf_loss, reg_loss, cls_pos_loss, cls_neg_loss, corr_loss
 
@@ -184,3 +195,14 @@ class LRMloss_v2(nn.Module):
         conf_loss = cls_pos_loss + cls_neg_loss
 
         return conf_loss, reg_loss, cls_pos_loss, cls_neg_loss
+
+if __name__ == '__main__':
+    a = torch.rand(1, 14, 200, 176)
+    b = torch.rand(1, 2, 200, 176)
+    c = torch.rand(1, 200, 176, 2)
+    d = torch.rand(1, 200, 176, 2)
+    e = torch.rand(1, 200, 176, 14)
+    f = torch.rand(1, 8, 200, 176)
+    g = torch.rand(1, 200, 176, 7)
+    v = VoxelLoss(cfg)
+    print(v.forward(a,b,c,d,e,f,g))
