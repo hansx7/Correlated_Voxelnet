@@ -10,21 +10,13 @@
           <excludedPaths>
             <excludedPath path="/.ipynb_checkpoints" />
             <excludedPath path="/cluster" />
-            <excludedPath path="/core" />
-            <excludedPath path="/datasets" />
             <excludedPath path="/Doc" />
             <excludedPath path="/stream" />
-            <excludedPath path="/test" />
-            <excludedPath path="/transform" />
-            <excludedPath path="/visualization" />
-            <excludedPath path="/voxelization" />
-            <excludedPath path="/wavedata" />
             <excludedPath path="/.gitignore" />
             <excludedPath path="/project/log_files" />
             <excludedPath path="/project/TB_logs" />
             <excludedPath path="/project/prediction" />
             <excludedPath path="/project/checkpoints" />
-            <excludedPath path="/project/kitti" />
             <excludedPath path="/project/kitti_eval" />
           </excludedPaths>
         </serverdata>

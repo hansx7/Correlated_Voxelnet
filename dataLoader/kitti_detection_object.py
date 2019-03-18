@@ -35,7 +35,7 @@ class kitti_detection_object(object):
         self.lidar_dir = os.path.join(self.split_dir, 'velodyne')
         self.label_dir = os.path.join(self.split_dir, 'label_2')
         self.oxts_dir = os.path.join(self.split_dir, 'oxts')
-        # self.plane_dir = os.path.join(self.split_dir, 'planes')
+        self.plane_dir = os.path.join(self.split_dir, 'planes')
 
     def __len__(self):
         return self.num_samples
@@ -52,12 +52,12 @@ class kitti_detection_object(object):
         lidar = lidar.reshape((-1, 4))
         return lidar
 
-    # def get_planes(self, idx):
-    #     assert (idx < self.num_samples)
-    #     plane_dir = os.path.join(self.plane_dir, '%06d.txt' %(idx))
-    #     plane = open(plane_dir).readlines()[3].split()
-    #     plane = [float(i) for i in plane]
-    #     return plane
+    def get_planes(self, idx):
+        assert (idx < self.num_samples)
+        plane_dir = os.path.join(self.plane_dir, '%06d.txt' %(idx))
+        plane = open(plane_dir).readlines()[3].split()
+        plane = [float(i) for i in plane]
+        return plane
 
     def get_calibration(self, idx):
         assert (idx < self.num_samples)

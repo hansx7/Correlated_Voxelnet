@@ -148,7 +148,7 @@ def eval_iter(model, criterion, eval_index, writer, is_summary=True):
     # datasets_val = KittiDetectionDataset(data_root, set='mini_val', train_type=cfg.train_type, using_img=True)
     datasets_val = KittiDTDataset(data_root, set='mini_val', train_type=cfg.train_type, using_img=True)
     dataloader_val = DataLoader(datasets_val, batch_size=cfg.batch_size, num_workers=cfg.n_cpus,
-                                collate_fn=detection_collate, shuffle=False, pin_memory=False, drop_last=True)
+                                shuffle=False, pin_memory=False, drop_last=True)
 
     for i_batch, (names, voxel_features, voxel_coords, pos_equal_one, neg_equal_one, targets, image) \
             in enumerate(dataloader_val, 0):

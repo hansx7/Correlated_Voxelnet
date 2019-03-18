@@ -14,6 +14,7 @@ from project.utils.utils import get_filtered_lidar
 from core.proj_utils import get_lidar_in_image_fov
 from dataLoader.kitti_tracking_object import kitti_tracking_object
 from core.bev_generators.bev_slices import BevSlices
+from visualization.viz import *
 
 
 class KittiDTDataset(Dataset):
@@ -69,7 +70,7 @@ class KittiDTDataset(Dataset):
 
         images = self.get_image(pre_idx, next_idx, datasets)
 
-        gt_boxes3d, gt_boxes2d, _, tracking_id = \
+        gt_boxes3d, gt_boxes2d, gt_ories3d, tracking_id = \
             self.get_labels(pre_idx, next_idx, datasets, calib)
 
         num_boxes = np.array([len(gt_boxes3d[0]), len(gt_boxes3d[1])])
@@ -87,6 +88,7 @@ class KittiDTDataset(Dataset):
         labels = {
             'gt_boxes3d': gt_boxes3d,
             'gt_boxes2d': gt_boxes2d,
+            'gt_ories3d': gt_ories3d,
             'tracking_id': tracking_id
         }
 
@@ -122,7 +124,11 @@ class KittiDTDataset(Dataset):
         neg_equal_one = np.concatenate((neg_equal_one0, neg_equal_one1), axis=2)
         targets = np.concatenate((targets0, targets1), axis=2)
         targets_diff = targets1 - targets0
-        # targets_mask = targets0.shape[2]
+
+        # Draw 2d and 3d boxes on image
+        show_multi_lidar_with_box3d_ori3d(lidars, labels)
+        mlab.show()
+        input()
 
         return idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, voxel_mask, \
                pos_equal_one, neg_equal_one, targets, targets_diff#, targets_mask
@@ -168,15 +174,16 @@ class KittiDTDataset(Dataset):
         pre_pc_velo, pre_pts_2d, pre_fov_inds = get_lidar_in_image_fov(pre_lidar[:, :3], calib, 0, 0,
                                                                cfg.IMG_WIDTH, cfg.IMG_HEIGHT, True)
         pre_lidar = pre_lidar[pre_fov_inds, :]
-        lidars.append(pre_lidar)
 
         trans, rotation = datasets.get_transform(pre_idx, next_idx)
+        pre_lidar[:, :3] = (pre_lidar[:, :3] + trans) @ np.linalg.inv(rotation)
+        lidars.append(pre_lidar)
         next_lidar = datasets.get_lidar(next_idx)
 
         next_pv_velo, next_pst_2d, next_fov_inds = get_lidar_in_image_fov(next_lidar[:, :3], calib, 0, 0,
                                                                            cfg.IMG_WIDTH, cfg.IMG_HEIGHT, True)
         next_lidar = next_lidar[next_fov_inds, :]
-        next_lidar[:, :3] = (next_lidar[:, :3] - trans) @ rotation
+        # next_lidar[:, :3] = (next_lidar[:, :3] - trans) @ rotation
         lidars.append(next_lidar)
 
         return lidars
@@ -201,8 +208,11 @@ class KittiDTDataset(Dataset):
         pre_image = datasets.get_image(pre_idx)
         next_image = datasets.get_image(next_idx)
         pre_image = cv2.resize(pre_image, (cfg.IMG_WIDTH, cfg.IMG_HEIGHT))
-        # TODO: image rectify among frames
+
+        trans, rotation = datasets.get_transform(pre_idx, next_idx)
+
         next_image = cv2.resize(next_image, (cfg.IMG_WIDTH, cfg.IMG_HEIGHT))
+        next_image = (next_image - trans) @ rotation
         images.append(pre_image)
         images.append(next_image)
         return images
@@ -230,15 +240,14 @@ class KittiDTDataset(Dataset):
                     ori3d_pts_2d, ori3d_pts_3d = utils.compute_orientation_3d(obj, calib.P)
                     ori3d = calib.project_rect_to_velo(ori3d_pts_3d)
 
-                    # TODO: boxes2d coordinate rectify among frames
                     box2d = obj.box2d
 
                     obj_id = obj.obj_id
 
-                    if i == 1:
+                    if i == 0:
                         # transform 3d bounding box and 3d orientation to current frame coordinate system
-                        box3d = (box3d - trans) @ rotation
-                        ori3d = (ori3d - trans) @ rotation
+                        box3d = (box3d + trans) @ np.linalg.inv(rotation)
+                        ori3d = (ori3d + trans) @ np.linalg.inv(rotation)
 
                     gt_boxes3d[i].append(box3d)
                     gt_boxes2d[i].append(box2d)
@@ -266,9 +275,10 @@ if __name__ == '__main__':
     datasets = KittiDTDataset(data_root, set_root='/kitti/', stride=1, train_type='Car', set='train')
     print(len(datasets))
     dataloader = DataLoader(datasets, batch_size=1, num_workers=4)
-    for i_batch, (idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, voxel_mask, \
-                  pos_equal_one, neg_equal_one, targets) in enumerate(dataloader, 0):
-        print(i_batch, idx_info,
+    _, _, _, _, _, _, _, _, _, _, _, _ = datasets.__getitem__(8)
+    # for i_batch, (idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, voxel_mask, \
+    #               pos_equal_one, neg_equal_one, targets, targets_diff) in enumerate(dataloader, 0):
+    #     print(i_batch, idx_info,
               # ('lidar size', lidars[0].size(), lidars[1].size()),
               # ('image size', images[0].size(), images[1].size()),
               # # (bev_maps[0].size(), bev_maps[1].size()),
@@ -281,16 +291,25 @@ if __name__ == '__main__':
               #  torch.cat((voxel_features[0], voxel_features[1]), 1).shape),
               # ('voxel_coords', voxel_coords[0].shape, voxel_coords[1].shape, \
               #  torch.cat((voxel_coords[0], voxel_coords[1]), 1).shape), \
-              '\nvoxel_features', voxel_features.shape, \
-              '\nvoxel_coords', voxel_coords.shape, voxel_mask, \
-              '\npos_equal_one', pos_equal_one.shape, \
-              '\nneg_equal_one', neg_equal_one.shape, \
-              '\ntargets', targets.shape#, targets_mask
+              # '\nvoxel_features', voxel_features.shape, \
+              # '\nvoxel_coords', voxel_coords.shape, voxel_mask, \
+              # '\npos_equal_one', pos_equal_one.shape, \
+              # '\nneg_equal_one', neg_equal_one.shape, \
+              # '\ntargets', targets.shape#, targets_mask
               # '\npos_equal_one', (pos_equal_one[0].shape, pos_equal_one[1].shape, \
               #  torch.cat((pos_equal_one[0], pos_equal_one[1]), 3).shape), \
               # '\nneg_equal_one', (neg_equal_one[0].shape, neg_equal_one[1].shape, \
               #  torch.cat((neg_equal_one[0], neg_equal_one[1]), 3).shape), \
               # '\ntargets', (targets[0].shape, targets[1].shape, \
               #  torch.cat((targets[0], targets[1]), 3).shape)
-              )
-
+              # )
+        # with open('image{}.txt'.format(i_batch)) as fimage:
+        #     fimage.write(images[0])
+        # with open('lidar{}.txt'.format(i_batch)) as flidar:
+        #     flidar.write(lidars[0])
+        # with open('calib{}.txt'.format(i_batch)) as fcalib:
+        #     fcalib.write(calib[0])
+        # with open('label{}.txt'.format(i_batch)) as flabel:
+        #     flabel.write(labels[0])
+        # if i_batch > 0:
+        #     break

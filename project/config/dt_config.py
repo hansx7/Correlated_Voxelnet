@@ -8,8 +8,8 @@ class config(object):
     KITTI_DETECTION_DATASET_ROOT = '/data/hk1/hansx/datasets/kitti/detection/'  # on server
     # KITTI_DETECTION_DATASET_ROOT = '/media/mooyu/Guoxs_Data/Datasets/Kitti/detection/'  # on pc
 
-    KITTI_TRACKING_DATASET_ROOT = '/data/hk1/hansx/datasets/kitti/tracking/'  # on server
-    # KITTI_TRACKING_DATASET_ROOT = '/media/mooyu/Guoxs_Data/Datasets/3D_Object_Tracking_Evaluation_2012/'
+    # KITTI_TRACKING_DATASET_ROOT = '/data/hk1/hansx/datasets/kitti/tracking/'  # on server
+    KITTI_TRACKING_DATASET_ROOT = '/home/shycg/Point_Cloud/datasets/kitti/tracking'
 
     EVAL_SCRIPT_DIR = ROOT_DIR + '/kitti_eval/evaluate_object_3d_offline'
 
