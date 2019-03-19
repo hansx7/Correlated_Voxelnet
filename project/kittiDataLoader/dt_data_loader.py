@@ -175,15 +175,15 @@ class KittiDTDataset(Dataset):
                                                                cfg.IMG_WIDTH, cfg.IMG_HEIGHT, True)
         pre_lidar = pre_lidar[pre_fov_inds, :]
 
-        trans, rotation = datasets.get_transform(pre_idx, next_idx)
-        pre_lidar[:, :3] = (pre_lidar[:, :3] + trans) @ np.linalg.inv(rotation)
+        trans, rotation = datasets.get_transform(next_idx, pre_idx)
+        # pre_lidar[:, :3] = (pre_lidar[:, :3] - trans) @ rotation
         lidars.append(pre_lidar)
         next_lidar = datasets.get_lidar(next_idx)
 
         next_pv_velo, next_pst_2d, next_fov_inds = get_lidar_in_image_fov(next_lidar[:, :3], calib, 0, 0,
                                                                            cfg.IMG_WIDTH, cfg.IMG_HEIGHT, True)
         next_lidar = next_lidar[next_fov_inds, :]
-        # next_lidar[:, :3] = (next_lidar[:, :3] - trans) @ rotation
+        next_lidar[:, :3] = (next_lidar[:, :3] + trans) @ np.linalg.inv(rotation)
         lidars.append(next_lidar)
 
         return lidars
@@ -223,7 +223,7 @@ class KittiDTDataset(Dataset):
         gt_ories3d = [[] ,[]]
         tracking_id = [[], []]
 
-        trans, rotation = datasets.get_transform(pre_idx, next_idx)
+        trans, rotation = datasets.get_transform(next_idx, pre_idx)
         pre_label = datasets.get_label_objects(pre_idx)
         next_label = datasets.get_label_objects(next_idx)
         raw_labels = [pre_label, next_label]
@@ -244,10 +244,12 @@ class KittiDTDataset(Dataset):
 
                     obj_id = obj.obj_id
 
-                    if i == 0:
+                    if i == 1:
                         # transform 3d bounding box and 3d orientation to current frame coordinate system
                         box3d = (box3d + trans) @ np.linalg.inv(rotation)
                         ori3d = (ori3d + trans) @ np.linalg.inv(rotation)
+                        # box3d = (box3d - trans) @ rotation
+                        # ori3d = (ori3d - trans) @ rotation
 
                     gt_boxes3d[i].append(box3d)
                     gt_boxes2d[i].append(box2d)
@@ -272,10 +274,10 @@ if __name__ == '__main__':
 
     data_root = cfg.KITTI_TRACKING_DATASET_ROOT
 
-    datasets = KittiDTDataset(data_root, set_root='/kitti/', stride=1, train_type='Car', set='train')
+    datasets = KittiDTDataset(data_root, set_root='/kitti/', stride=5, train_type='Car', set='train')
     print(len(datasets))
     dataloader = DataLoader(datasets, batch_size=1, num_workers=4)
-    _, _, _, _, _, _, _, _, _, _, _, _ = datasets.__getitem__(8)
+    _, _, _, _, _, _, _, _, _, _, _, _ = datasets.__getitem__(0)
     # for i_batch, (idx_info, lidars, images, labels, num_boxes, voxel_features, voxel_coords, voxel_mask, \
     #               pos_equal_one, neg_equal_one, targets, targets_diff) in enumerate(dataloader, 0):
     #     print(i_batch, idx_info,

@@ -76,17 +76,21 @@ def show_multi_lidar_with_box3d_ori3d(lidars, labels):
     '''
     fig = mlab.figure(figure=None, bgcolor=(0, 0, 0),
                       fgcolor=None, engine=None, size=(1000, 500))
-    # print('lidars', lidars)
-    # print('labels', labels['gt_boxes3d'])
-    for (lidar, label) in zip(lidars, labels):
-        if label == {}:
-            continue
-        print('lidar', lidar.shape)
-        print('label', label)
-        box3d = labels['gt_boxes3d'][0]
-        ori3d = labels['gt_ories3d'][0]
+    print('lidars', lidars)
+    print('labels', labels['gt_boxes3d'])
+    # for (lidar, label) in zip(lidars, labels):
+    #     if label == {}:
+    #         continue
+    #     print('lidar', lidar.shape)
+    #     print('label', label)
+    #     box3d = labels['gt_boxes3d']
+    #     ori3d = labels['gt_ories3d']
+    #     fig = show_lidar_with_box3d_ori3d(lidar, box3d, ori3d, fig, draw_id=False)
+    for i in range(2):
+        box3d = labels['gt_boxes3d'][i]
+        ori3d = labels['gt_ories3d'][i]
         print('go into utils')
-        fig = show_lidar_with_box3d_ori3d(lidar, box3d, ori3d, fig, draw_id=False)
+        fig = show_lidar_with_box3d_ori3d(lidars[i], box3d, ori3d, fig, draw_id=False)
     mlab.show(1)
     mlab.view(azimuth=180, elevation=70, focalpoint=[12.0909996, -1.04700089, -2.03249991], distance=62.0, figure=fig)
     return fig

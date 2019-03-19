@@ -2,27 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d7e3c126-b245-4589-a2d8-b6dc8fa20522" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/test/.ipynb_checkpoints/pyncloud_test-checkpoint.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/generate_bev_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/interpolation_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/pyncloud_test.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/visualization_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/transform/boxes_test.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/transform/boxes_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/transform/interpolation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/transform/utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/visualization/test_pc.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/visualization/viz.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/visualization/viz_utils.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/voxelization/config.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/voxelization/voxel.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/voxelization/voxel_generate.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataLoader/kitti_detection_object.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataLoader/kitti_detection_object.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/config/dt_config.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/config/dt_config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/kittiDataLoader/dt_data_loader.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/kittiDataLoader/dt_data_loader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/voxelnet_train.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/voxelnet_train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization/viz.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualization/viz.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -95,12 +77,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="10064" />
+          <entry key="py" value="10216" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="10064" />
+          <entry key="Python" value="10216" />
         </counts>
       </usages-collector>
     </session>
@@ -113,8 +95,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/project/kittiDataLoader/dt_data_loader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-776">
-              <caret line="127" selection-start-line="127" selection-end-line="127" />
+            <state relative-caret-position="303">
+              <caret line="229" lean-forward="true" selection-start-line="229" selection-end-line="229" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -125,29 +107,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dataLoader/kitti_tracking_object.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-996">
-              <caret line="34" column="58" selection-start-line="34" selection-start-column="58" selection-end-line="34" selection-end-column="58" />
+            <state relative-caret-position="626">
+              <caret line="107" column="24" lean-forward="true" selection-start-line="107" selection-start-column="24" selection-end-line="107" selection-end-column="24" />
               <folding>
                 <element signature="e#0#37#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project/kittiDataLoader/voxelnet_data_loader.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="105" column="17" selection-start-line="105" selection-start-column="17" selection-end-line="105" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.PyCharm2018.2/system/remote_sources/254712754/-1049352544/mayavi/core/common.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
             </state>
           </provider>
         </entry>
@@ -159,32 +123,6 @@
               <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project/models/voxelnet.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3059">
-              <caret line="167" column="29" selection-start-line="167" selection-start-column="29" selection-end-line="167" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
-                <marker date="1552665711266" expanded="true" signature="5188:5590" ph="..." />
-                <marker date="1552665711266" expanded="true" signature="5347:5353" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/project/models/loss.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="855">
-              <caret line="48" column="41" selection-start-line="48" selection-start-column="41" selection-end-line="48" selection-end-column="41" />
-              <folding>
-                <element signature="e#0#12#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -205,8 +143,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/visualization/viz.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="562">
-              <caret line="90" selection-start-line="90" selection-end-line="91" />
+            <state relative-caret-position="524">
+              <caret line="88" column="22" lean-forward="true" selection-start-line="88" selection-start-column="22" selection-end-line="88" selection-end-column="22" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -217,7 +155,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/visualization/viz_utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
+            <state relative-caret-position="2336">
               <caret line="191" lean-forward="true" selection-start-line="191" selection-end-line="191" />
               <folding>
                 <element signature="e#222#232#0" expanded="true" />
@@ -251,7 +189,6 @@
       <list>
         <option value="$PROJECT_DIR$/corr_test.py" />
         <option value="$PROJECT_DIR$/project/config/common_config.py" />
-        <option value="$PROJECT_DIR$/dataLoader/kitti_tracking_object.py" />
         <option value="$PROJECT_DIR$/project/kittiDataLoader/voxelnet_data_loader.py" />
         <option value="$PROJECT_DIR$/project/config/voxelnet_config.py" />
         <option value="$PROJECT_DIR$/project/utils/create_voxel.py" />
@@ -264,8 +201,9 @@
         <option value="$PROJECT_DIR$/project/config/dt_config.py" />
         <option value="$PROJECT_DIR$/project/voxelnet_train.py" />
         <option value="$PROJECT_DIR$/test/visualization_test.py" />
-        <option value="$PROJECT_DIR$/visualization/viz.py" />
         <option value="$PROJECT_DIR$/visualization/viz_utils.py" />
+        <option value="$PROJECT_DIR$/visualization/viz.py" />
+        <option value="$PROJECT_DIR$/dataLoader/kitti_tracking_object.py" />
         <option value="$PROJECT_DIR$/project/kittiDataLoader/dt_data_loader.py" />
       </list>
     </option>
@@ -512,6 +450,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-11" width="1857" height="1092" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5067638" visible="true" weight="0.16271374" />
       <window_info active="true" id="Structure" order="1" sideWeight="0.4932362" side_tool="true" visible="true" weight="0.16271374" />
@@ -588,11 +527,6 @@
           <url>file://$PROJECT_DIR$/project/voxelnet_train.py</url>
           <line>39</line>
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/project/kittiDataLoader/dt_data_loader.py</url>
-          <line>219</line>
-          <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -782,6 +716,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/project/kittiDataLoader/voxelnet_data_loader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="361">
+          <caret line="105" column="17" selection-start-line="105" selection-start-column="17" selection-end-line="105" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test/visualization_test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="493">
@@ -794,8 +735,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/visualization/viz.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="562">
-          <caret line="90" selection-start-line="90" selection-end-line="91" />
+        <state relative-caret-position="524">
+          <caret line="88" column="22" lean-forward="true" selection-start-line="88" selection-start-column="22" selection-end-line="88" selection-end-column="22" />
           <folding>
             <element signature="e#0#21#0" expanded="true" />
           </folding>
@@ -804,7 +745,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/visualization/viz_utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
+        <state relative-caret-position="2336">
           <caret line="191" lean-forward="true" selection-start-line="191" selection-end-line="191" />
           <folding>
             <element signature="e#222#232#0" expanded="true" />
@@ -812,17 +753,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/project/kittiDataLoader/voxelnet_data_loader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="105" column="17" selection-start-line="105" selection-start-column="17" selection-end-line="105" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/dataLoader/kitti_tracking_object.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-996">
-          <caret line="34" column="58" selection-start-line="34" selection-start-column="58" selection-end-line="34" selection-end-column="58" />
+        <state relative-caret-position="626">
+          <caret line="107" column="24" lean-forward="true" selection-start-line="107" selection-start-column="24" selection-end-line="107" selection-end-column="24" />
           <folding>
             <element signature="e#0#37#0" expanded="true" />
           </folding>
@@ -831,8 +765,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/project/kittiDataLoader/dt_data_loader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-776">
-          <caret line="127" selection-start-line="127" selection-end-line="127" />
+        <state relative-caret-position="303">
+          <caret line="229" lean-forward="true" selection-start-line="229" selection-end-line="229" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>
